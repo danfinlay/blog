@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Public Goods Purity Test</title>
+<meta name="description" content="In response to Vitalik&#x27;s latest blog post.">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>A Public Goods Purity Test</h1>
+<time datetime="2025-03-30T19:00:02.000Z">30 March 2025</time>
+
+<img class="feature" src="../content/images/2024/01/cover-1-1.webp" alt="">
+<p>In response to <a href="https://vitalik.eth.limo/general/2025/03/29/pubos.html" rel="noreferrer">Vitalik&apos;s latest blog post</a>.</p><p>Many examples of public goods seem to be things that I might describe as &#x201C;goods that have an unknowable amount of value created for an unknowable group of recipients.&#x201D; The spectrum that we often seem to wrestle with is maybe how much continuous maintenance/service is involved in keeping that good available.</p><p>I think this framing could help us be a little more open about how to treat things within different points in that spectrum, while also giving us a framework to prefer and encourage more of the more pure (lower maintenance, less value captured) types of goods.</p><figure class="kg-card kg-image-card"><img src="../content/images/2025/03/Screenshot-2025-03-30-at-2.31.29-PM.png" class="kg-image" alt loading="lazy" width="1446" height="1234" srcset="../content/images/size/w600/2025/03/Screenshot-2025-03-30-at-2.31.29-PM.png 600w, ../content/images/size/w1000/2025/03/Screenshot-2025-03-30-at-2.31.29-PM.png 1000w, ../content/images/2025/03/Screenshot-2025-03-30-at-2.31.29-PM.png 1446w" sizes="(min-width: 720px) 720px"></figure><p>I can&#x2019;t help but notice how this kind of scenario seems like a good fit for a type of auction I made up/discovered (The &#x201C;<a href="https://danfinlay.github.io/matt-demo&#xA0;" rel="noreferrer">MATT Auction</a>&#x201D;). When you have someone trying to decide whether to produce a value, and there might be a variable amount of interest in that value created, to a group who deserve to be concerned with the fairness of their contribution size.</p><p>I  went with a small prototyping team to the popup city Edge Lanna and shared a sort of event crowdfunding platform called <a href="https://www.youtube.com/watch?v=TDRvZj0eJ8w&amp;themeRefresh=1" rel="noreferrer">Propel</a> that included a similar structure that I think it could be easily modified to have the following characteristics. Propel had the basic qualities of an auction in that category:</p><ul><li>A value creator/proposer states a thing they&#x2019;d like to do.</li><li>That value creator can share their proposal wherever people will listen to them.</li><li>People who would receive some value from that project can bid what they&#x2019;d be willing to pay for this thing to be done (this bid can even be expressed as a subscription payment).<ul><li>Optionally: These bids can be private, very trivially, since the bid commitments are signed offchain messages.</li></ul></li><li>Once the seller has enough bids to justify their effort, they redeem all the bids.<ul><li>Optionally: issue receipts/tickets/NFTs representing their contribution.</li><li>Optionally: All bids are cleared at the same price, so all bidders are assured they pay no more than any other bidder.<ul><li>Many reviewers of the MATT auction pointed out that this cannot ensure that anyone is excluded from access to the good, but that&apos;s already a safe assumption for the whole category of goods we&apos;re discussing here.</li></ul></li></ul></li></ul><p>If you wanted to fund a lighthouse in this model, you&#x2019;d probably use a subscription based bid model, and once enough individuals pledged a fee sufficient to build and then maintain the light house, the lighthouse would be built and maintained at a price that everyone agreed was worth it to them.</p><p>If at a later point, some of the subscribers felt they were paying an undue portion of the fee, they could adjust their bid rate. If they had been the lowest bidder, this might actually drop the price for everyone. This might actually fall below the threshold of the service provider&#x2019;s willingness to provide the service, and they might need to withhold service until the subscription pool met their target (their own bid). They might be willing to bend their price. A true public good would probably have someone come out of the woodwork to bid the difference. Or maybe an upstart would-be lighthouseman would appeal to all the bidders to shift their subscription.</p><p>Users should be able to create exclusive-or (XOR) bids, like &#x201C;I&#x2019;ll pay for this lighthouse or that one, and not both, whichever is cheaper&#x201D;. If a new upstart came along during a strike and were willing to do it for less on an ongoing basis, I guess they&#x2019;d be able to.</p><p>A system like this can still serve small scale needs: Bidding on a github issue to be resolved, or a feature to be added. A database to be maintained.</p><p>In a way, the whole dependency graph of our existence (food, water, shelter, repair, transportation, internet, communications tools, etc...) could be considered a big stack of goods we depend on, some of which may have &#x201C;public goods&#x201D; (lower maintenance) properties, and in turn just require that they are (as often as possible) engaged in a sort of competitive negotiation or type of market that maximizes the amount of goods produced for the available contribution. </p><p>Since contributions could be streaming subscription bids, and services might themselves need to subscribe to other services, allowing these subscriptions to flow and even easily re-route around service disruptions, or towards new opportunities, would all be ideally part of the continuous bidding system that built this graph (service value in one direction, patronage in the other).</p><p>One problem I&#x2019;ve seen basically every time someone tries to do &#x201C;supply chain on the blockchain&#x201D; is the problem of certifying equivalent goods. It&#x2019;s awesome because identity congruity across a distributed system is also a Hard problem, and I would suggest these are basically the same problem. The na&#xEF;ve answer is always to make a new registry. Heck, the greedy answer is to race to <em>author</em> a new registry so people depend on your opinion downstream, you become a trusted brand, and you inevitably sell influence in at least subtle ways you don&#x2019;t even notice.</p><p>A registry with some central party maintaining it inherently excludes diversity and evolution in disconnected portions of the social network. A true p2p commerce protocol must be friendly to any individual agent, even one not previously established in the network, to be able to begin to create new markets with their own newly establishing network. While &#x201C;having a certified alternative&#x201D; is appealing if you have a central authority you trust, it is insufficient if that central authority does not include local options you&#x2019;re open to, or if it certifies bad products, and to solve those issues, we need p2p network topologies that prioritize local perspective, and establishing the individual user as the &#x201C;root of trust&#x201D; of their own network of agreements.</p><p>Bringing it back to open source: We often treat software creation like either a business or a hobby, and I think in some ways Vitalik&#x2019;s post asks for a space inbetween, and I think that request should resonate widely since the most commonly reposted xkcd I ever see is about <a href="https://xkcd.com/2347/" rel="noreferrer">a thankless programmer in Nebraska</a>. A pretty simple alternative framework is treating maintenance more like a service profession. The more ongoing maintenance is required, the more continuous funding is needed for beyond-hobby maintenance. The more continuous funding, the more concern there is about whether the funding is being effectively allocated, or unfairly captured, etc.</p><p>This framework seems to also work as a way to negotiate prices for most of the &#x201C;Public Goods That Are Hard to Call Open Source&#x201D;. A strong exception is clean air, partly because not only is it hard to discern the benefactors of the value, it&#x2019;s hard to discern the contributors to air quality (or detractors, and how would you penalize detractors?).</p><p>Open science/research seems to be in a uniquely pure category of public good because its value arguably sustains regardless of maintenance. The very finest open source would theoretically be tiny modules that are so reliable that they never require updates, and I think this would ascend to the highest level of public good. Most other things involve some degree of maintenance, and in turn subscription costs, but I guess there&#x2019;s a whole other discussion about how to raise more things into that highest category: A question that for me evokes some of the early Ethereum ideas like &#x201C;a self-owning taxi&#x201D;: an idealized dream where even a complex service-like good might be so autonomously sustainable that proper mechanisms are able for it to spread its value as widely as possible at the smallest possible cost to the society that enabled it.</p><p>Making a system like an autonomous taxi sustainable is a more complicated question, but still maybe in the same category. I suspect that making more complex systems into self-sustaining ones will require increased ecological dynamism that allows the service provider to organically form, adapt, and leverage cycles of inter-enablement that can unlock booms of new benefit to those involved in the cycle. I think Ethan Buchman has <a href="https://cycles.money/whitepaper.pdf" rel="noreferrer">written</a> and <a href="https://youtu.be/OcIQZelrpnI?t=1011" rel="noreferrer">spoken</a> wonderfully about the power of financial cycles, and is exploring it with his current project <a href="https://cycles.money/" rel="noreferrer">Cycles.Money</a>, and I think more projects should look at the implications of what those types of cycles can unlock for whatever problems they&#x2019;re concerned with addressing.</p><p>Given we have many pressing problems today, I think it&#x2019;s worth exploring the low-hanging category: What are kinds of research that can be conducted and shared broadly today that can enable rapidly locally deployed solutions to various problems? The example of open source air filtration research is a good one. A person or group who wanted to continue iterating on an open source design might declare they&#x2019;re seeking funding for the ongoing effort. Or a platform could be designed that allowed people to pledge funding to hypothetical accounts should they ever be registered, but this depends on some kind of account-verification infrastructure. This might be a good use of things like zkTLS.</p><p>Another example of research in a very similar category I&#x2019;d like to see is increasingly open source research on alternative food production techniques. Vertical and hydroponic gardening has been undergoing an innovation boom, but has limitations for the kinds of nutrition it tends to be good at producing (not a lot of carbs or protein). Water capture and desalination would be other great areas to have more open designs available for.</p><p>To build these types of projects, we basically need people willing to adopt a model of work where they work in public, and accept funds from contributors to continue that work. This isn&#x2019;t very different from a Patreon model, but Patreon falls short in a pretty basic way: It&#x2019;s just a way to pile up as much funding as you can get, and doesn&#x2019;t utilize any game mechanics to ensure that funding is minimized across funders: It&#x2019;s just a game of how much funding you can accrue. This is great for the top producers, but probably results in fewer total things being produced. If the producers were able to just name their target funding rate, let the crowd split it up as widely as needed, and live within those means, we might be able to produce far more open source/public goods while also supporting far more creators/researchers.</p><p>Anyways, reviewing my thoughts here, I think the most useful one in response to Vitalik&#x2019;s blog post was that rather than fully transitioning focus from &#x201C;public goods&#x201D; to &#x201C;open source&#x201D;, to recognize that public goods exist at the far edge of a spectrum of &#x201C;goods that have an unknowable amount of value created for an unknowable group of recipients.&#x201D; (open to a more concise verbiage). The purest public goods like open science research exist at the extreme end of an axis where there is effectively no maintenance cost for the contribution. Drawing from that framework, we can and should:</p><ol><li> prioritize funding these longer-lasting types of goods</li><li>explore how to build more things in a way that achieves lower-maintenance sustainability</li><li>continue exploring and building improved mechanisms for funding the many things that actually do require ongoing maintenance even when they serve an illegible group.</li></ol>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>

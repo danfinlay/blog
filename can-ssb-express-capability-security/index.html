@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can SSB Express Capability Security?</title>
+<meta name="description" content="This post is incomplete, but after sitting in draft form for months, I’ve become concerned I’ll never share the part I did write, so I’m publishing now for Mix. I’ll note here if this page i…">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>Can SSB Express Capability Security?</h1>
+<time datetime="2024-10-02T12:09:02.000Z">2 October 2024</time>
+
+<img class="feature" src="../content/images/2024/01/cover-1-1.webp" alt="">
+<p><em>This post is incomplete, but after sitting in draft form for months, I&#x2019;ve become concerned I&#x2019;ll never share the part I did write, so I&#x2019;m publishing now for Mix. I&#x2019;ll note here if this page is ever updated again and when.</em></p><p>Secure Scuttlebutt (SSB) is one of the OGs of the decentralized/federated web. Unlike many of the other current major social protocols today which focus on a twitter-like public experience (Bluesky, Farcaster, Nostr) where privacy is then difficult to add later, SSB provided a privacy-first approach to following way back in 2014, enabling tightly woven communities with strong protocol-level curation and blocking, all in a package that is so privacy and consent-centric that it&apos;s impossible to estimate its true usage levels.</p><p>SSB was my first interaction with a social <a href="https://github.com/cwebber/rebooting-the-web-of-trust-spring2018/blob/petnames/draft-documents/petnames.md" rel="noreferrer">pet name</a> system, and its author Dominic Tarr was the first person to refer me to the work of Agoric, a group who has now become dear to my heart, close collaborators, and produce software that I built on regularly.</p><p>All that said, today I&apos;m a huge advocate of decentralized systems that leverage an <a href="https://en.wikipedia.org/wiki/Object-capability_model" rel="noreferrer">object-capability (ocap) security model</a> to enable robust and flexible composition of the network, and I&apos;d even say that a social network built on one of these platforms, like <a href="https://spritely.institute/" rel="noreferrer">Spritely</a> (<a href="https://spritely.institute/static/papers/spritely-core.pdf" rel="noreferrer">further reading</a>) or <a href="https://github.com/endojs/endo/" rel="noreferrer">Endo</a>, should make some things possible that are simply not possible on ssb (without implementing a capability system on top of ssb, which is entirely possible, but I&apos;ll claim defeats the point of not using one of those frameworks).</p><p>SSB has a number of characteristics in common with an ocap system, as they both have a &quot;web of trust&quot; philosophy at their core:</p><ul><li>Nothing is granted to a stranger by default.</li><li>What is granted can be shared again (your feed is visible by your followers&apos; followers).</li></ul><p>The core limitations of SSB as I&apos;m aware of them are:</p><ul><li>The data model is coarse (when you friend someone, you share all of your profile/history with them as one blob, which is also shared with their friends).</li><li>The protocol operates on data, and does not have an inherent/convenient/<em>secure</em> way to share authorization to operate on/update your own data.</li></ul><p>I was going over this perception with Mix, who enjoys developing on SSB, and challenged the claim that it isn&apos;t possible to securely share access control in a capability-secure way using the SSB protocol. We developed a hypothetical scenario that went something like this:</p><ol><li>I make a blog on SSB.</li><li>I find myself wanting to add a contributor.</li><li>I create a <code>contributors</code> array, and update my blog&apos;s logic to validate if posts are by those contributors.</li><li>What if I want those contributors to be able to invite contributors? I add a <code>canInvite</code> boolean to the array&apos;s members, and now we have transitive delegation.</li></ol><p>I think I can describe a few fundamental limitations of this approach that independently point at the need for a capability system in this scenario:</p><ol><li>The Tower of Admins (which I coined just now)</li><li>The Confused Deputy</li><li>Dynamic attenuation.</li></ol><h2 id="the-tower-of-admins">The Tower of Admins</h2><p>The tower of admins problem is a side effect of any access control list (ACL) hierarchy where a series of users want the ability to invite subsequent users without losing the ability to revoke that invitation.</p><p>If all users of a group are absolute peers, and the ability to invite and kick were both afforded to all members, then the group would only need to invite a single malicious user before potentially being all kicked out of the group, and having the group permanently hijacked by the malicious invitee.</p><p>For this reason, basically all ACL systems implement some kind of hierarchy, where the original creator of a document is an &quot;admin&quot;, and invites other members to be something less-than admins, so they can be kicked by the admin. This brings the annoying side effect that the sysadmin has to be messaged and nagged for every membership change (inviting or kicking), and practically professionalizes this extremely security-sensitive role as an &quot;IT Admin&quot;, since a large enough organization has enough changes of membership that it could be a person&apos;s full time job just to add and remove users.</p><p>One way to mitigate this administrative-overwhelm is to introduce some kind of sub-admin role, or maybe promote the original admin to a &quot;Super-Admin&quot; who is able to invite Admins, but also kick them, while allowing this new second-class user to do all the other things a user can do. This scales the organization by one layer of invitations, but does not necessarily imply the end of the benefit of new layers of users being able to invite and administrate sub-groups of users: After all, one might also want to grant permissions to a process or AI agent, which itself might want to enlist a third party agent. The ACL has no way to allow additional levels of administration except by creating new fixed hierarchical roles, and migrating users to the appropriate layer within those roles. An organization of sufficient complexity could find themselves constantly adding new layers of super-duper-administration with no limit, creating a tower of admins extending to the clouds.</p><p>It&apos;s also worth considering how one sub-admin might not actually be an expert on another sub-admin&apos;s invitees, and maybe shouldn&apos;t have permission to manage them (and in a situation where two admins were both invited by a super-admin but have an administrative dispute, the security model should probably defer to their mutual inviter/admin).</p><h2 id="the-confused-deputy">The Confused Deputy</h2><p>The Confused Deputy problem was <a href="https://dl.acm.org/doi/10.1145/54289.871709" rel="noreferrer">first articulated by Norm Hardy</a> as a way of explaining why capability systems exist. It shows up in situations where an agent wants to manage multiple permissions on behalf of multiple other users in a way where an access control list is incapable of expressing the distinct context of those different permissions, and breaks down in predictably insecure ways.</p><p>If you were to graph the permissions, a minimal confused deputy scenario generally looks like this:</p><figure class="kg-card kg-image-card"><img src="../content/images/2024/08/confdep.png" class="kg-image" alt loading="lazy" width="484" height="255"></figure><p></p><h2 id="dynamic-attenuation">Dynamic Attenuation</h2><p></p><h2 id="conclusion">Conclusion</h2><p></p>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>

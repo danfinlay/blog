@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reclaim Recipe Sanity With This Bookmarklet</title>
+<meta name="description" content="Online recipes have become a weird economy of maximizing advertising revenue, and diluting the recipe with narrative and blog. This bookmarklet will let you cut the fat.">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>Reclaim Recipe Sanity With This Bookmarklet</h1>
+<time datetime="2024-01-18T17:51:58.000Z">18 January 2024</time>
+<div class="tags"><span>cooking</span><span>bookmarklet</span></div>
+<img class="feature" src="../content/images/2024/01/chef-bot.png" alt="">
+<img src="../content/images/2024/01/chef-bot.png" alt="Reclaim Recipe Sanity With This Bookmarklet"><p>Online recipes have become a weird economy of maximizing advertising revenue, and diluting the recipe with narrative and blog. This bookmarklet will let you cut the fat.</p><p>You can drag this link to your bookmark toolbar:<br><a href="javascript:(function() {     var originalUrl = window.location.href;     var newUrl = &apos;http://cooked.wiki/&apos; + originalUrl;     window.location.href = newUrl; })();" rel="noreferrer">Clean up recipe page</a></p><p>Then on any annoying recipe site, you can click that bookmark to open it in cooked.wiki, a site that simplifies recipe pages easily, and does most of the heavy lifting.</p><p>Be careful when clicking bookmarklets from sources you don&apos;t trust: They get to run a script on the page you click them in!</p><p>What I like to do is have recipes formatted in the style of <a href="https://www.cookingforengineers.com/recipe/227/Ratatouille" rel="noreferrer">Cooking for Engineers</a>, so to simplify that conversion process I&apos;ve also created a custom GPT for that process: <a href="https://chat.openai.com/g/g-c74vLxlat-chef-matrix" rel="noreferrer">Chef Matrix</a>. Paste a recipe to that GPT, or even just ask it for a recipe, to get an easy to follow table of the recipe.</p><p><strong>Update</strong>: Multiple readers have said the cross-platform paid app <a href="https://www.paprikaapp.com/" rel="noreferrer">Paprika</a> provides this feature, along with cross-device syncing &amp; multi-user sharing. Sounds pretty cool too, if you don&apos;t mind paying.</p>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>

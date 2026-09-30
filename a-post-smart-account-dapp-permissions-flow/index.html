@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Post-Smart-Account Dapp Permissions Flow</title>
+<meta name="description" content="The ideas expressed in this blog post have been re-articulated in greater detail on this Notion page (to permit for wider collaboration).">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>A Post-Smart-Account Dapp Permissions Flow</h1>
+<time datetime="2024-03-13T00:35:36.000Z">13 March 2024</time>
+
+<img class="feature" src="../content/images/2024/03/DALL-E-2024-03-12-17.34.40---Visualize-a-futuristic-scene-where-two-robots--with-sleek-and-sophisticated-designs--are-shaking-hands-in-the-center-of-a-digital-landscape.-The-backg.webp" alt="">
+<img src="../content/images/2024/03/DALL-E-2024-03-12-17.34.40---Visualize-a-futuristic-scene-where-two-robots--with-sleek-and-sophisticated-designs--are-shaking-hands-in-the-center-of-a-digital-landscape.-The-backg.webp" alt="A Post-Smart-Account Dapp Permissions Flow"><p><em>The ideas expressed in this blog post have been re-articulated in greater detail on </em><a href="https://www.notion.so/metamask-consensys/Permissions-Standard-2-DApp-Signing-Flow-ae9bc05b38624bc09484a23ec94f70b5" rel="noreferrer"><em>this Notion page</em></a><em> (to permit for wider collaboration).</em></p><p>Here&apos;s a super brief summary of a stack that is getting increasingly well defined, and I think could evolve into the new way Ethereum dapps interact with wallets post-smart-account, and could likely inform other blockchains on better secure-interaction patterns as well.</p><p>I&apos;ve given <a href="https://streameth.org/watch?event=wallet_unconference&amp;session=65b8f8d6a5b2d09b88ec192f" rel="noreferrer">a talk</a> laying some of the foundations for this direction (but it&apos;s missing some of these steps), and started <a href="https://ethereum-magicians.org/t/towards-more-conversational-wallet-connections-a-proposal-for-the-redeemdelegation-interface/16690" rel="noreferrer">an Ethereum-magicians thread</a> for discussing it as well, which will probably continue to be a nice place to discuss it as it evolves.</p><ol><li>Dapp does an RPC call: <code>wallet_getOnchainPermissions(PermissionDescriptor)</code>.</li><li>User uses their account to return a blob that represents this permission when <code>redeemDelegation(authBlob, userOp)</code> is called on their account.</li><li>Wallet returns an <code>AuthorityBlob</code> to the dapp.</li><li>Dapp uses <code>AuthorityBlob</code> to initialize its preferred in-app account management tooling of choice. It could send those userOps either to a hosted bundler, or back to the user for handling the gas payment.</li><li>The Dapp can then form ERC-4337 UserOps and submit them via their own infrastructure, or propose them to be relayed by the user&apos;s signer, via something like <a href="https://pimlico.notion.site/Permissions-Standard-Pre-draft-for-AA-Wallets-ONLY-68ab0cb914094c5bac07097d93d8ed5f" rel="noreferrer">this proposal</a>.</li></ol><figure class="kg-card kg-image-card kg-card-hascaption"><img src="../content/images/2024/03/Screenshot-2024-03-16-at-2.46.36-PM.png" class="kg-image" alt="A Post-Smart-Account Dapp Permissions Flow" loading="lazy" width="1246" height="851" srcset="../content/images/size/w600/2024/03/Screenshot-2024-03-16-at-2.46.36-PM.png 600w, ../content/images/size/w1000/2024/03/Screenshot-2024-03-16-at-2.46.36-PM.png 1000w, ../content/images/2024/03/Screenshot-2024-03-16-at-2.46.36-PM.png 1246w" sizes="(min-width: 720px) 720px"><figcaption><span style="white-space: pre-wrap;">A sequence diagram of the described protocol.</span></figcaption></figure><p>You get a lot of benefits from this approach:</p><ol><li>Since the user forms their own permissions object, anything they sign is inherently readable (and possibly probably enforceable) by their signer, without necessarily relying on any external infrastructure.</li><li>Since the authorization blob is used to initialize a signer object on the dapp side, the permissions granting does not require a constant connection between signer &amp; the connected application, making it friendly to short-lived handshake protocols.</li><li>Since the authorization blob is used to initialize an account within the dapp, the developer is free to choose the account management abstractions that they prefer or play friendliest with their existing stack (ethers, viem, wagmi, etc).</li><li>Signers can continuously add new permissions, refining their security models without requiring updates or changes from connected applications.</li><li>Because the dapp makes their request before knowing anything about the user, this reduces an attacker&apos;s options for cherry-picking malicious actions for an unknown user to take.</li><li>Since this interaction pattern makes no comment on how the user forms the authorizing blob, it is completely open ended to innovation in the field of user signer design, both contract implementation and UX.</li></ol><p>The biggest outstanding design question in this protocol is the shape of the <code>sendTokenXonNetworkY</code> object, which should really be called a <code>PermissionDescriptor</code> or something. It should be an object that can represent a desired permission, without knowing anything specific about what the user has, allowing the user to decide at their leisure whether or not to provide the requested interface. At the very least, since these are onchain permissions, the dapp probably either needs to specify a recipient address, or receive a burner account in the response.</p><h3 id="agent-flexibility">Agent Flexibility</h3><p>I&apos;ve gotten a few repeated misunderstandings from people reading this. People keep asking if it locks different parties into using specific tooling. To help clarify this is not the case, I will briefly review the agents in the above diagram and demonstrate how they are not locked into a particular relationship:<br><br>The Dapp developer receives an authorityBlob from the user, and is then free to do with it as they please: They can propose transactions to the user involving the authorityBlob as usual, or the dapp can use it to enable an account that the dapp manages (either in-page or remotely). The developer is not locked into any specific smart account tooling: The wallet the permissions were requested from implemented its <code>redeemDelegation</code> method in its own arbitrary way. All the dapp needs to worry about is choosing how it wants to use that authority, which should give the developer full choice over their own tooling</p><p>The wallet is not locked into implementing a specific contract account, it merely has the option of exposing an interface to give its user the ability to grant permissions at their discretion in a standardized format. The wallet is not stuck using any particular tooling, it only has an optional interface.</p><p>The user is not forced to grant any permissions. The user can use any wallet they want, building whatever contract account format they want. The user can then use that account to grant whatever permissions they want to the applications they want. The user should have granted no authority by default, but should be free to grant authority to the tools and applications they want to.</p><p>The bundler is a service that either the wallet or the dapp can subscribe to. It locks neither party in, but provides a service to those who need it. It is not locked into anything, it merely has the option to expose a valuable service.</p><h3 id="conclusion">Conclusion</h3><p>Anyways, I think this could be a useful pattern in the near future, but executing on it well requires some loose &quot;choose to participate&quot; level of consensus across implementing signers and the application developers who might choose to consume permissions in this schema. Signer developers should review this plan to see that they could still achieve their design goals while exposing this interface, and weigh the claimed benefits. Dapp developers should consider whether they would want to manage an embedded account in the way described, and if enough signers are interacting with this standard to make it worth building their application to support.</p>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>

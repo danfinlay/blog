@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A History of eth_sign in MetaMask</title>
+<meta name="description" content="Ah, eth_sign. I can tell that story. I may look like a fool for part of it, but I’ll try to represent the historical contexts that made the sequence of decisions make sense. This’ll be a per…">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>A History of eth_sign in MetaMask</h1>
+<time datetime="2024-04-13T02:50:51.000Z">13 April 2024</time>
+
+<img class="feature" src="../content/images/2024/04/DALL-E-2024-04-12-19.30.42---A-digital-artwork-for-a-blog-post-about-the-evolution-and-security-concerns-of-the-eth_sign-method-in-web3-technology.-The-image-should-feature-a-pers.webp" alt="">
+<figure class="kg-card kg-embed-card"><div><blockquote class="twitter-tweet"><img src="../content/images/2024/04/DALL-E-2024-04-12-19.30.42---A-digital-artwork-for-a-blog-post-about-the-evolution-and-security-concerns-of-the-eth_sign-method-in-web3-technology.-The-image-should-feature-a-pers.webp" alt="A History of eth_sign in MetaMask"><p lang="en" dir="ltr">why would someone create this<br>why would anyone else implement it<br>what</p>&#x2014; henry &#x1F318; (@hdevalence) <a href="https://twitter.com/hdevalence/status/1778830405468311612?ref_src=twsrc%5Etfw">April 12, 2024</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div></figure><p>Ah, <code>eth_sign</code>. I can tell that story. I may look like a fool for part of it, but I&#x2019;ll try to represent the historical contexts that made the sequence of decisions make sense. This&#x2019;ll be a personal perspective, closely tied to my position as a person of significant influence at <a href="https://metamask.io/" rel="noreferrer">MetaMask</a>.</p><p><code>eth_sign</code> here means the method that allows signing a plain hash. It is opaque by definition, and so should be assumed to be capable of doing anything a single signature on the eth curve can do.</p><p><code>eth_sign</code> was originally a <a href="https://github.com/ethereum/go-ethereum/" rel="noreferrer">geth</a> feature, back when it was the only signer. Of course a CLI signer has a signing method to do anything with, right?</p><p>Then <a href="https://github.com/ethereum/mist" rel="noreferrer">Mist</a>, the original web3 browser which contained a full node added geth&#x2019;s RPC to its web3 API injected into every page. Back then they&#x2019;d just sign anything the site asked it to without user interaction. This was safe for a moment because there were basically no users or &#xD0;apps, and phishing was limited to pranks.</p><p>MetaMask originally cloned Mist&#x2019;s API in the name of being compliant with what we perceived as a nascent standard, but we added confirmations before any signing interaction. We eventually added some important improvements like only revealing a user&#x2019;s accounts upon a site initiated confirmation.</p><p>Before any readable signature standards existed, any contract that implemented a slightly novel signing scheme would depend on <code>eth_sign</code> to innovate. <code>personal_sign</code> added string signing, but was not efficient to parse onchain. <a href="https://eips.ethereum.org/EIPS/eip-712#definition-of-domainseparator" rel="noreferrer">EIP-712</a> <code>signTypedData</code> improved machine efficiency, but still struggles for sufficient readability to be considered safe.</p><p>Early on we identified the risk to <code>eth_sign</code> and added our most severe warning text of any confirmation, basically saying the signature could potentially transfer away all of your funds, even though at the time such an attack was theoretical (unlike post <a href="https://eips.ethereum.org/EIPS/eip-3074#in-protocol-revocation" rel="noreferrer">EIP-3074</a>).</p><figure class="kg-card kg-image-card"><img src="https://user-images.githubusercontent.com/563406/80536182-fc91a500-896f-11ea-9e1f-a2ba99c623d1.png" class="kg-image" alt="A History of eth_sign in MetaMask" loading="lazy"></figure><p></p><p>Early on we also:</p><ul><li>Had examples of &#xD0;apps who depended on eth_sign, like a site&apos;s admin panel (I think it was Gnosis SAFE), posting offers on some DEXes, and (maybe ironically) <a href="https://hackless.gitbook.io/hackless-docs/products/wallet-rescue/intro" rel="noreferrer">advanced methods for sweeping funds from an otherwise compromised account</a>.</li><li>Did not have data showing it was successfully being used for harm.</li></ul><p>At the time I had high optimism that users could learn to take confirmations (and their warnings) seriously. I have since transitioned to more interest in alternative interaction patterns that <a href="https://www.researchgate.net/publication/221166412_Not_one_click_for_security" rel="noreferrer">encode consent in the user&#x2019;s behavior</a> rather than depend on reading, like a file picker. I gave <a href="https://streameth.org/watch?event=wallet_unconference&amp;session=65b8f8d6a5b2d09b88ec192f" rel="noreferrer">a talk about a proposed next step for readable wallet-site connections at Devconnect 2023 in Istanbul</a>.</p><p>I defended keeping <code>eth_sign</code> longer than many. At that stage, I felt preserving the functionality of the existing ecosystem was critical, and had high faith the warning was doing its job. I argued against Pedro from walletconnect. I argued against my own cofounder Kumavis. I probably defended it too long. I often cited <a href="https://lkml.org/lkml/2012/12/23/75" rel="noreferrer">this email by Linus Torvalds</a>.</p><p>I still believe the principle of non-breaking APIs is under-appreciated in web3. <a href="https://roamresearch.com/#/app/capabul/page/rYTgyqbVb&#xA0;" rel="noreferrer">I collected notes on how different platforms drew the line</a>. Security was clearly the top justifying reason, but I hadn&#x2019;t seen the proof that our warnings were insufficient.</p><p>Largely driven by Harry Denley, we eventually added enough metrics that I was convinced there was enough phishing activity and not enough legitimate usage of the method that it was time to sunset it. We initially have it soft-deprecated, and it&#x2019;s buried in settings behind another heavy warning. Our metrics show this has been sufficient to all but eliminate its usage. Some phishing kits still hit the method, but they are auto-rejected and tracked for flagging.</p><p>Now that 3074 is looking likely for inclusion, we&#x2019;re finally completely removing the option to enable this method, even for advanced users going into settings. They&#x2019;ll need to use a command line tool if they really need to sign messages that are formed outside the bounds of the existing signing methods.</p><p>I&apos;d also like to note that even &quot;readable signature methods&quot; can be misused. OpenSea&apos;s Wyvern 1.3 contracts used the plain-text <code>personal_sign</code> signature method to sign an opaque hash as text, which is a good example that these methods only work if it&apos;s obvious how to use them safely to every member of the interaction. The lazy path needs to be the safe path.</p><p>I hope if anything stands out here, it&#x2019;s the gradualness of the process that we have been involved in. I think we&#x2019;re finally starting to see some eth adoption of more coherent readability (I mean onchain safety, not simulation), but I don&#x2019;t think true safe interaction patterns can be back-ported to EOAs. I think users need to be able to enforce their own policies around what they own, and that requires the power of code.</p><p>I&#x2019;d hoped for some years that the existing smart account wallet teams would uncover some safer usage patterns that we could integrate via our Snaps plugin system, and we are now seeing the first SCAs pursue <a href="https://metamask-consensys.notion.site/Permissions-Standard-2-DApp-Signing-Flow-ae9bc05b38624bc09484a23ec94f70b5"><u>a standardized permissions system</u></a> for connecting to &#xD0;apps. I&#x2019;ve long advocated for 3074 because I saw it as a path for EOAs to eventually enjoy some of the same assurances that SCAs unlock (so old accounts have some safety, not so we can prevent new users from using safer accounts).</p><p>I hope that&apos;s at least an interesting history. I haven&#x2019;t been omniscient, and none of us have been, but at least you can see how the safety requirements of an ecosystem may change over time, along with our abilities to reason about them. I hope you don&apos;t judge me too harshly for my part.</p>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>

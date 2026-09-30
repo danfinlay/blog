@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Types of Delegation: Strict and Categorical</title>
+<meta name="description" content="I&#x27;ve had a weird little predicament in my head for a bit now, and I wanted to write it down. I&#x27;ve been doing a lot of work on digital delegation systems, and there&#x27;s one little architectural…">
+<link rel="alternate" type="application/rss+xml" title="Dan Finlay&#x27;s Blog" href="../feed.xml">
+<style>
+:root {
+  --bg: #ffffff; --fg: #15171a; --muted: #5d6771; --rule: #e6e9ec;
+  --link: #1a7f64; --accent: #4bd7ac; --code-bg: #f4f6f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e8eaed; --muted: #9aa4ad; --rule: #2b3035;
+    --link: #4bd7ac; --accent: #4bd7ac; --code-bg: #1e2126;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 18px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+header.site { border-bottom: 1px solid var(--rule); padding: 28px 0 22px; margin-bottom: 36px; }
+header.site .wrap { display: flex; flex-direction: column; gap: 4px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 650; font-size: 20px; }
+header.site p { margin: 0; color: var(--muted); font-size: 15px; }
+a { color: var(--link); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; line-height: 1.25; margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin: 1.8em 0 0.4em; }
+time, .meta { color: var(--muted); font-size: 14px; }
+article img, article video { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+figure { margin: 1.8em 0; }
+figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 8px; }
+blockquote {
+  margin: 1.5em 0; padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 6px; overflow-x: auto; font-size: 15px; }
+code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-size: 0.9em; }
+pre code { background: none; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; }
+ul.index { list-style: none; padding: 0; margin: 0; }
+ul.index li { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+ul.index a { font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+ul.index a:hover { text-decoration: underline; }
+ul.index p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.tags { margin-top: 6px; }
+.tags span {
+  display: inline-block; font-size: 12px; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 100px; padding: 1px 9px; margin-right: 6px;
+}
+footer.site { margin: 64px 0 40px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+.feature { margin: 0 0 28px; max-height: 58vh; width: 100%; object-fit: cover; }
+article { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="home" href="../index.html">Dan Finlay&#x27;s Blog</a>
+    <p>Helping people and computers cooperate.</p>
+  </div>
+</header>
+<div class="wrap">
+<article>
+<h1>Two Types of Delegation: Strict and Categorical</h1>
+<time datetime="2024-03-20T05:19:28.000Z">20 March 2024</time>
+
+<img class="feature" src="../content/images/2024/01/cover-1-1.webp" alt="">
+<p>I&apos;ve had a weird little predicament in my head for a bit now, and I wanted to write it down. I&apos;ve been doing a lot of work on digital delegation systems, and there&apos;s one little architectural distinction that I don&apos;t think has gotten enough attention as a capability system design decision.</p><p>Both delegation types allow the holder of a capability to share that power with someone else. The difference involves when a delegated capability is then re-delegated: Does this delegation refer specifically to a specific initial capability, or is it a more open-ended, <em>categorical</em> delegation?</p><p>The first type we might call &quot;strict delegations&quot;: These grant a specific agent a specific power. These are the safest type of delegation. There is a lot to be said about the power of preserving the context and intention behind a delegation, avoiding &quot;context collapse&quot;, and only a strict delegation maintains maximum safety.</p><p>One example of the difference between these types of delegations could be seen when managing a claims registry. In a claims registry, anyone could make a claim about anyone else. In a delegatable claims registry, a person could also let someone else make claims on their behalf.</p><p>In a <em>strict delegation</em> model, whenever you make a claim, you have to be perfectly specific about exactly who you are making this claim on behalf of, and you are only ever updating a single entity&apos;s claim registry at a time.</p><p>In a <em>categorical delegation</em> model, a delegation from Alice might say &quot;I&apos;d make any claim Bob made about Carol&quot;, and then regardless of whether Bob means to update Alice&apos;s registry, make a claim on his own behalf, or merely himself vouching for Dave&apos;s opinion, any of those choices would impact Alice&apos;s claims registry as if Bob had been writing to his registry himself.</p><p>This is clearly particularly valuable in an information-propagating system, since we each might want to curate as rich as possible a local view of the world&apos;s credible information, but we shouldn&apos;t expect an encyclopedia author to have to receive encyclopedia-updating delegations from each subscriber in the world on each topic he writes about.</p><p>A categorical delegation can be dangerous in financial situations. A company issuing a departmental budget to an employee would be unhappy if the employee&apos;s subscription services began pulling from the company funds as if the subscription approval made no distinction between groups of funds.</p><p>Maybe there&apos;s an <a href="http://zesty.ca/pubs/icics-2002-uidss.pdf" rel="noreferrer">appropriate boundaries</a> synthesis to this seeming dialectic. An account could even be treated as the unit of this boundary: If Alice kept account 1 for personal use and account 2 for business use, then even if she granted <em>categorical</em> delegations from her personal account, she could not drain her business budget with her personal expenses.</p><p>Another type of danger from categorical delegations comes from the redeemer potentially cherry-picking which of the user&apos;s delegations to deplete. If Alice and Bob both granted Carol an allowance, and Carol gives Dave a categorical allowance to those funds, if Dave can choose whether to drain Alice or Bob&apos;s funds, he could choose the one he disliked more. If he coordinated with others in a well-developed network, this kind of selective-redemption attack could be quite potent!</p><p>This concern is important to me because I&apos;ve done some theorizing around something I&apos;ve come to call <a href="https://medium.com/capabul/the-simplest-trustworthy-oracle-fad057c5b271" rel="noreferrer">Perfect Insurance</a>. Given a well developed network of allowances that is dense enough that there is often an allowance (or &quot;trust line&quot;) to be found connecting two apparent strangers with sufficient <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem" rel="noreferrer">maximal flow</a> to enable a novel interaction (either insuring a transaction, or ideally even funding new ambitious ventures).</p><p>When the density of the network becomes the limit to what kinds of novel activity can happen (including paying for education, medical bills, or other important ventures), it becomes critical to find the way to push the throughput of the network to its limit. That would suggest a place for using categorical delegations, but since it&apos;s clear there are such easy ways to misuse them, I suspect we need to develop a strong theory of the risks around them, to ensure we have appropriate safeguards around the possible risks.</p>
+
+</article>
+<footer class="site">
+  <p>Archived copy. Text recovered from the Internet Archive. Images recovered from the original server.</p>
+</footer>
+</div>
+</body>
+</html>
